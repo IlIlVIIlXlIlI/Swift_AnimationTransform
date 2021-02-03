@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         view.addSubview(flower)
         
         // アニメーション
-        UIView.animate(withDuration: 1.0,
+        UIView.animate(withDuration: 2.0,
                        delay: 0,
                        options: [.curveEaseInOut],
                        animations: {
@@ -38,10 +38,30 @@ class ViewController: UIViewController {
                         // 変形を戻す
                         flower.transform = .identity
                        },
-                       completion: nil
-                       )
+                       completion: { (finished:Bool)in
+                        // フェードインが完了したら実行する
+                        self.fadeoutAndRemove(flower)
+                       })
         
     }
+    
+    // フェードアウトが完了したら取り除く
+    func fadeoutAndRemove(_ view:UIView) {
+        // フェードアウトする
+        UIView.animate(
+            withDuration: 2.0, // 2.0秒間かかって消える
+            delay: 3.0, // 3秒後に消え始める
+            options: UIView.AnimationOptions(),
+            animations: {
+                // 消える
+                view.alpha = 0.0
+        },
+            completion:{(finished:Bool) in
+                // ビューから取り除く
+                view.removeFromSuperview()
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
